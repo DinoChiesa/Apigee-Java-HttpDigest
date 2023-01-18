@@ -1,0 +1,15 @@
+<AssignMessage name='AM-Response-from-SC'>
+  <Set>
+    <Payload contentType='application/json'>{serviceCalloutResponse.content}
+</Payload>
+    <StatusCode>200</StatusCode>
+    <Headers>
+      <Header name='authz-header'>{digest_computed_authzheader}</Header>
+    </Headers>
+  </Set>
+  <Remove>
+    <Headers>
+      <Header name='www-authenticate'/>
+    </Headers>
+  </Remove>
+</AssignMessage>

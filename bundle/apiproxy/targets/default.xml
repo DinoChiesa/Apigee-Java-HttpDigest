@@ -1,0 +1,55 @@
+<TargetEndpoint name='default'>
+  <Description>default target endpoint</Description>
+  <FaultRules>
+    <FaultRule name='other-fault'>
+      <!-- This FaultRule always catches all uncaught faults. -->
+      <Step>
+        <Name>JS-MaybeFormatFault</Name>
+      </Step>
+    </FaultRule>
+  </FaultRules>
+
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <Flows/>
+
+  <PreFlow name='PreFlow'>
+    <!--
+        All of this happens in the response flow, AFTER the target has been
+        invoked and returns a 401 with a WWW-Authenticate header.
+    -->
+
+    <Response>
+      <!-- create the request for the ServiceCallout -->
+      <Step>
+        <Name>AM-New-Request</Name>
+      </Step>
+      <!-- compute the Authorization header and insert it into the request for the ServiceCallout -->
+      <Step>
+        <Name>Java-Compute-Http-Digest-Header</Name>
+      </Step>
+      <!-- send the request via ServiceCallout -->
+      <Step>
+        <Name>SC-With-Authentication-Now</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <HTTPTargetConnection>
+    <SSLInfo>
+        <Enabled>true</Enabled>
+        <IgnoreValidationErrors>true</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>401</Property>
+    </Properties>
+
+    <URL>https://httpbin.org/digest-auth</URL>
+  </HTTPTargetConnection>
+
+</TargetEndpoint>

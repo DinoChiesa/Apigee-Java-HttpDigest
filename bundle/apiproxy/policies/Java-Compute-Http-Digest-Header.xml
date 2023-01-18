@@ -1,0 +1,14 @@
+<JavaCallout name='Java-Compute-Http-Digest-Header' continueOnError='true'>
+  <Properties>
+    <Property name='challenge-header'>{response.header.www-authenticate.values.string}</Property>
+    <Property name='username'>{extracted.username}</Property>
+    <Property name='password'>{extracted.password}</Property>
+    <Property name='method'>{request.verb}</Property>
+    <Property name='uri'>/digest-auth{proxy.pathsuffix}</Property>
+
+    <!-- the message to get the computed header: -->
+    <Property name='message'>contrivedMessage</Property>
+  </Properties>
+  <ClassName>com.google.apigee.callouts.HttpDigest</ClassName>
+  <ResourceURL>java://apigee-custom-httpdigest-20230117.jar</ResourceURL>
+</JavaCallout>

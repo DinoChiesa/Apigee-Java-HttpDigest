@@ -1,0 +1,8 @@
+<AssignMessage name='AM-New-Request'>
+  <AssignTo createNew='true' transport='http' type='request'>contrivedMessage</AssignTo>
+  <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+  <Set>
+    <Verb>GET</Verb>
+    <Path>{proxy.pathsuffix}</Path>
+  </Set>
+</AssignMessage>

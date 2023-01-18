@@ -1,0 +1,24 @@
+<ServiceCallout name='SC-With-Authentication-Now'>
+  <Request variable='contrivedMessage'>
+<!--
+    <Set>
+      <Headers>
+        <Header name='authorization'>{digest_computed_authzheader}</Header>
+      </Headers>
+    </Set>
+-->
+  </Request>
+
+  <Response>serviceCalloutResponse</Response>
+
+  <HTTPTargetConnection>
+    <SSLInfo>
+      <Enabled>true</Enabled>
+      <IgnoreValidationErrors>false</IgnoreValidationErrors>
+    </SSLInfo>
+    <Properties>
+      <Property name='success.codes'>2xx</Property>
+    </Properties>
+    <URL>https://httpbin.org/digest-auth</URL>
+  </HTTPTargetConnection>
+</ServiceCallout>

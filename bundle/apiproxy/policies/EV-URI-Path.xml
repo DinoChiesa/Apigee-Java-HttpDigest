@@ -1,0 +1,9 @@
+<ExtractVariables name='EV-URI-Path'>
+  <Source>request</Source>
+  <VariablePrefix>extracted</VariablePrefix>
+  <URIPath>
+    <!-- NB: The Pattern is matched against pathsuffix (what comes AFTER the basepath) -->
+    <Pattern ignoreCase='true'>/auth/{username}/{password}</Pattern>
+  </URIPath>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</ExtractVariables>

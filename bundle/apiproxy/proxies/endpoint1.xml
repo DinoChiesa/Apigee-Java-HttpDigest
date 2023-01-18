@@ -1,0 +1,72 @@
+<ProxyEndpoint name="endpoint1">
+  <Description>Example Proxy for Java callout HTTP Digest</Description>
+  <HTTPProxyConnection>
+    <BasePath>/http-digest</BasePath>
+    <Properties/>
+    <VirtualHost>secure</VirtualHost>
+  </HTTPProxyConnection>
+
+  <FaultRules/>
+  <DefaultFaultRule>
+    <AlwaysEnforce>true</AlwaysEnforce>
+    <Step>
+      <Name>AM-Inject-Proxy-Revision-Header</Name>
+    </Step>
+  </DefaultFaultRule>
+
+  <PreFlow name="PreFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Clean-Request-Headers-From-Response</Name>
+      </Step>
+    </Response>
+  </PreFlow>
+
+  <PostFlow name="PostFlow">
+    <Request/>
+    <Response>
+      <Step>
+        <Name>AM-Inject-Proxy-Revision-Header</Name>
+      </Step>
+    </Response>
+  </PostFlow>
+
+  <PostClientFlow name="PostFlow">
+    <Request/>
+    <Response>
+    </Response>
+  </PostClientFlow>
+
+  <Flows>
+    <Flow name="test 1">
+      <Description>Run one test</Description>
+      <Request>
+        <Step>
+          <Name>EV-URI-Path</Name>
+        </Step>
+      </Request>
+      <Response>
+        <Step>
+          <Name>AM-Response-from-SC</Name>
+        </Step>
+      </Response>
+      <Condition>(proxy.pathsuffix MatchesPath "/auth/*/*") and (request.verb = "GET")</Condition>
+    </Flow>
+
+    <Flow name="unknown request">
+      <Request>
+        <Step>
+          <Name>RF-Unknown-Request</Name>
+        </Step>
+      </Request>
+      <Response/>
+    </Flow>
+
+  </Flows>
+
+  <RouteRule name="InvokeRouteRule">
+    <TargetEndpoint>default</TargetEndpoint>
+  </RouteRule>
+
+</ProxyEndpoint>
